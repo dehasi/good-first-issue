@@ -16,9 +16,12 @@ function requestIssues(label) {
     .catch(error => console.log(error));
 }
 
-label = 'good first issue';
-requestIssues(label).then(issues => {
-  if (issues.length > 0) {
-    issuesTab.textContent += `:${issues.length}`;
-  }
-});
+function addLabelCount(label) {
+  requestIssues(label).then(issues => {
+    if (issues.length > 0) {
+      issuesTab.textContent += `:${issues.length}`;
+    }
+  });
+}
+addLabelCount('good first issue');
+addLabelCount('bug');
