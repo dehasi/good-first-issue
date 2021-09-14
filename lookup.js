@@ -1,6 +1,10 @@
 
 issues = document.querySelector("#issues-tab > span:nth-child(2)")
 
+if (issues == null) {
+    console.log('No Issues tab')
+    return
+}
 // fetch(url).then(r=> r.json().then(j=> console.log('\nREQUEST 2',j)));
 
 issues.textContent= "lol it works!"
