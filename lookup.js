@@ -16,16 +16,9 @@ function requestIssues(label) {
     .catch(error => console.log(error));
 }
 
-function hasLabel(issue, label) {
-  return issue.labels.find(l => l.name === label);
-}
-
 label = 'good first issue';
-requestIssues(label)
-  .then(issues => {
-    return issues.filter(issue => hasLabel(issue, label)).length;
-  })
-  .then(cnt => {
-    // alert(`cnt is ${cnt}`);
-    issuesTab.textContent += `:${cnt}`;
-  });
+requestIssues(label).then(issues => {
+  if (issues.length > 0) {
+    issuesTab.textContent += `:${issues.length}`;
+  }
+});
