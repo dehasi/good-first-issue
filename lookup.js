@@ -1,11 +1,10 @@
-issues = document.querySelector('#issues-tab > span:nth-child(2)');
+issuesTab = document.querySelector('#issues-tab > span:nth-child(2)');
 
-if (issues == null) {
+if (issuesTab == null) {
   console.log('No Issues tab');
 }
-// fetch(url).then(r=> r.json().then(j=> console.log('\nREQUEST 2',j)));
 
-issues.textContent = 'lol it works!';
+issuesTab.textContent = 'lol it works!';
 
 async function requestIssues() {
   url = window.location.toString().split('/');
@@ -13,10 +12,9 @@ async function requestIssues() {
   repo = url[4];
   data = null;
 
-  const response = await fetch(`https://api.github.com/repos/${user}/${repo}`)
-    .catch(function (error) {
-      console.log(error);
-    });
+  const response = await fetch(
+    `https://api.github.com/repos/${user}/${repo}`
+  ).catch(error => console.log(error));
   return response.json;
 }
 
@@ -24,10 +22,8 @@ function goodIssue(issue) {
   return issue.labels.find(l => l.name === 'good first issue').length > 0;
 }
 
-async function funcName(url) {
-  const response = await fetch(url);
-  var data = await response.json();
-}
+issues = requestIssues();
+alert(`issues is ${issues}`);
 
-cnt = requestIssues()
+cnt = issues.find(goodIssue).size();
 alert(`cnt is ${cnt}`);
