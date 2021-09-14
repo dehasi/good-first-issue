@@ -22,8 +22,14 @@ function goodIssue(issue) {
   return issue.labels.find(l => l.name === 'good first issue').length > 0;
 }
 
-issues = requestIssues();
-alert(`issues is ${issues}`);
-
-cnt = issues.find(goodIssue).size();
-alert(`cnt is ${cnt}`);
+requestIssues()
+  .then(issues => {
+    alert(`issues is ${issues}`);
+    return issues.find(goodIssue).size();
+  })
+  .then(cnt => {
+    alert(`cnt is ${cnt}`);
+  });
+//alert(`issues is ${issues}`);
+//cnt = issues.find(goodIssue).size();
+//alert(`cnt is ${cnt}`);
