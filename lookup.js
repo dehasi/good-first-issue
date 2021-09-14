@@ -1,8 +1,4 @@
-issuesTab = document.querySelector('#issues-tab > span:nth-child(2)');
-
-if (issuesTab == null) {
-  console.log('No Issues tab');
-}
+const issuesTab = document.querySelector('#issues-tab > span:nth-child(2)');
 
 function requestIssues(label) {
   url = window.location.toString().split('/');
@@ -23,5 +19,15 @@ function addLabelCount(label) {
     }
   });
 }
-addLabelCount('good first issue');
-addLabelCount('bug');
+labelsMap = {
+  'good first issue': 'green',
+  'bug': 'red',
+};
+
+if (issuesTab != null) {
+  for (const [label, color] of Object.entries(labelsMap)) {
+    addLabelCount(label);
+  }
+} else {
+  console.log('No Issues tab');
+}
