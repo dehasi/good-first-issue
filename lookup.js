@@ -12,10 +12,10 @@ async function requestIssues() {
   repo = url[4];
   data = null;
 
-  const response = await fetch(
-    `https://api.github.com/repos/${user}/${repo}`
-  ).catch(error => console.log(error));
-  return response.json;
+  return fetch(`https://api.github.com/repos/${user}/${repo}`)
+    .then(r => r.json())
+    .catch(error => console.log(error));
+  // return response.json;
 }
 
 function goodIssue(issue) {
@@ -30,6 +30,6 @@ requestIssues()
   .then(cnt => {
     alert(`cnt is ${cnt}`);
   });
-//alert(`issues is ${issues}`);
-//cnt = issues.find(goodIssue).size();
-//alert(`cnt is ${cnt}`);
+// alert(`issues is ${issues}`);
+// cnt = issues.find(goodIssue).size();
+// alert(`cnt is ${cnt}`);
