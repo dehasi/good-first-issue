@@ -19,10 +19,35 @@ function addLabelCount(label) {
     }
   });
 }
+
+function getOrDefault(key, defaultValue) {
+  result = null;
+  chrome.storage.sync.get(key, kv => {
+  console.log('result ' + kv);
+    if (kv[key]) {
+      console.log('result ' + kv[key]);
+      result = kv[key];
+    } else {
+      console.log('no value for key ' + key);
+      chrome.storage.sync.set({ key: defaultValue }, () => {});
+      result = defaultValue;
+    }
+  });
+  return result;
+}
+
+
 labelsMap = {
   'good first issue': 'green',
   'bug': 'red',
 };
+var labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
+console.log('labelsList'  + labelsList)
+labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
+console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
 
 if (issuesTab != null) {
   for (const [label, color] of Object.entries(labelsMap)) {
