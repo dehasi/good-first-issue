@@ -1,33 +1,43 @@
-class storage {
+export default class Storage {
   constructor(defaultLabels = ['bug', 'good first issue']) {
     this.key = 'labels';
-    this.labelSet = new Set();
+    labelSet = getObjectFromLocalStorage(this.key);
+    if(labelSet == null){
+        saveObjectInLocalStorage({this.key : labelSet});
+    }
     saveLabels(defaultLabels);
   }
 
   saveLabels(labels) {
-    this.labelSet = new Set(labels);
-    chrome.storage.sync.set({ this.key:  this.labelSet }, () => {});
-
+    saveObjectInLocalStorage({ this.key: tlabels});
   }
 
   labels() {
-    return Array.from(this.labelSet).sort();
+    return Array.from(getObjectFromLocalStorage(this.key)).sort();
   }
 
-  getOrDefault(key, defaultValue) {
-    result = null;
-    chrome.storage.sync.get(key, kv => {
-      console.log('result ' + kv);
-      if (kv[key]) {
-        console.log('result ' + kv[key]);
-        result = kv[key];
-      } else {
-        console.log('no value for key ' + key);
-        chrome.storage.sync.set({ key: defaultValue }, () => {});
-        result = defaultValue;
-      }
-    });
-    return result;
-  }
+  getObjectFromLocalStorage = async function(key) {
+  return new Promise((resolve, reject) => {
+    try {
+      chrome.storage.local.get(key, function(value) {
+        resolve(value[key]);
+      });
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+};
+
+saveObjectInLocalStorage = async function(obj) {
+  return new Promise((resolve, reject) => {
+    try {
+      chrome.storage.local.set(obj, function() {
+        resolve();
+      });
+    } catch (ex) {
+      reject(ex);
+    }
+  });
+};
+
 }

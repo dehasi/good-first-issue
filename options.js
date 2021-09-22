@@ -72,5 +72,7 @@ function drawAddButton() {
   add_btn.addEventListener('click', handleAddButtonClick);
 }
 
+import Storage from './storage';
+
 drawTable();
 drawAddButton();
