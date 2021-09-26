@@ -77,6 +77,14 @@ function isDarkColor(color) {
   return yiq < 150;
 }
 
+
+const calcFontColor = color => {
+  const blackContrastScore = rgb(hexToRGBArray(color), [0, 0, 0]);
+  const whiteContrastScore = rgb(hexToRGBArray(color), [255, 255, 255]);
+
+  return blackContrastScore >= whiteContrastScore ? "#000000" : "#ffffff";
+};
+
 function labelElement(label, count) {
   name = label.name
   color = label.color
