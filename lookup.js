@@ -60,30 +60,14 @@ function hexToRgb(hex) {
   } : null;
 }
 
-function yc(color) {
-  const t = "string" == typeof color ? parseInt(color.replace("#", ""), 16) : color;
-  return +((299 * ((t >> 16) & 255) + 587 * ((t >> 8) & 255) + 114 * (255 & t)) / 1e3 / 255).toFixed(2) < 0.6
-    ? "#ffffff"
-    : "#000000";
-}
-
 // http://24ways.org/2010/calculating-color-contrast
 // This is the same lightness algorithm as used on GitHub
 function isDarkColor(color) {
   hh = hexToRgb(color);
-//  const [r, g, b] = hh.r;
   const yiq = (hh.r * 299 + hh.g * 587 + hh.b * 114) / 1000;
   // Note: the value 150 is hardcoded into GitHub
   return yiq < 150;
 }
-
-
-const calcFontColor = color => {
-  const blackContrastScore = rgb(hexToRGBArray(color), [0, 0, 0]);
-  const whiteContrastScore = rgb(hexToRGBArray(color), [255, 255, 255]);
-
-  return blackContrastScore >= whiteContrastScore ? "#000000" : "#ffffff";
-};
 
 function labelElement(label, count) {
   name = label.name
@@ -99,12 +83,7 @@ function labelElement(label, count) {
 
 async function main () {
     const src = chrome.runtime.getURL('storage.js');
-    const Storage = await import(src);
-
-    var labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
-    console.log('labelsList'  + labelsList)
-    labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
-    console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+    const storage = await import(src);
 
     labels =  ['good first issue', 'bug']
     if (issuesTab != null) {
