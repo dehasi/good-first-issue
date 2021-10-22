@@ -92,7 +92,7 @@ function labelElement(label, count) {
   url = "/" + user_repo() + "/issues?q=is:issue+is:open+label:" + '%22' + name.replaceAll(' ', '+') + '%22';
   return `<span class="labels lh-default d-block d-md-inline">`
          + `<a href="${url}" data-name="${name}"data-view-component="true"`
-         + ` style="background: #${color}; color: #${fontColor}; border-color: #${color}" `
+         + ` style="background: #${color}; color: ${fontColor}; border-color: #${color}" `
          + ` class="IssueLabel hx_IssueLabel">`
          + `${name}: ${count}</a></span>`
 }
