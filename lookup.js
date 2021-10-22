@@ -60,18 +60,10 @@ function hexToRgb(hex) {
   } : null;
 }
 
-function yc(color) {
-  const t = "string" == typeof color ? parseInt(color.replace("#", ""), 16) : color;
-  return +((299 * ((t >> 16) & 255) + 587 * ((t >> 8) & 255) + 114 * (255 & t)) / 1e3 / 255).toFixed(2) < 0.6
-    ? "#ffffff"
-    : "#000000";
-}
-
 // http://24ways.org/2010/calculating-color-contrast
 // This is the same lightness algorithm as used on GitHub
 function isDarkColor(color) {
   hh = hexToRgb(color);
-//  const [r, g, b] = hh.r;
   const yiq = (hh.r * 299 + hh.g * 587 + hh.b * 114) / 1000;
   // Note: the value 150 is hardcoded into GitHub
   return yiq < 150;
@@ -84,22 +76,24 @@ function labelElement(label, count) {
   url = "/" + user_repo() + "/issues?q=is:issue+is:open+label:" + '%22' + name.replaceAll(' ', '+') + '%22';
   return `<span class="labels lh-default d-block d-md-inline">`
          + `<a href="${url}" data-name="${name}"data-view-component="true"`
-         + ` style="background: #${color}; color: #${fontColor}; border-color: #${color}" `
+         + ` style="background: #${color}; color: ${fontColor}; border-color: #${color}" `
          + ` class="IssueLabel hx_IssueLabel">`
          + `${name}: ${count}</a></span>`
 }
 
-var labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
-console.log('labelsList'  + labelsList)
-labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
-console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+async function main () {
+    const src = chrome.runtime.getURL('storage.js');
+    const storage = await import(src);
 
-labels =  ['good first issue', 'bug']
-if (issuesTab != null) {
-  for (let label of labels) {
-    addLabelCount(label);
-  }
-} else {
-  console.log('No Issues tab');
+    labels =  ['good first issue', 'bug']
+    if (issuesTab != null) {
+      for (let label of labels) {
+        addLabelCount(label);
+      }
+    } else {
+      console.log('No Issues tab');
+    }
 }
+
+main();
 //https://api.github.com/repos/spring-cloud/spring-cloud-contract/issues?per_page=100&labels=bug
