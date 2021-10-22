@@ -97,17 +97,24 @@ function labelElement(label, count) {
          + `${name}: ${count}</a></span>`
 }
 
-var labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
-console.log('labelsList'  + labelsList)
-labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
-console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+async function main () {
+    const src = chrome.runtime.getURL('storage.js');
+    const Storage = await import(src);
 
-labels =  ['good first issue', 'bug']
-if (issuesTab != null) {
-  for (let label of labels) {
-    addLabelCount(label);
-  }
-} else {
-  console.log('No Issues tab');
+    var labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
+    console.log('labelsList'  + labelsList)
+    labelsList = getOrDefault('labelsList', ['good first issue', 'bug'])
+    console.log('labelsList'  + getOrDefault('labelsList', ['good first issue', 'bug']))
+
+    labels =  ['good first issue', 'bug']
+    if (issuesTab != null) {
+      for (let label of labels) {
+        addLabelCount(label);
+      }
+    } else {
+      console.log('No Issues tab');
+    }
 }
+
+main();
 //https://api.github.com/repos/spring-cloud/spring-cloud-contract/issues?per_page=100&labels=bug
