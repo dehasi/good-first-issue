@@ -2,7 +2,7 @@ export default class Storage {
     constructor(defaultLabels = ['bug', 'good first issue']) {
       this.key = 'LABELS';
 
-      labelSet = loadLabels(this.key);
+      labelSet = loadLabels();
 
       if (labelSet == null) {
          saveLabels(defaultLabels);
