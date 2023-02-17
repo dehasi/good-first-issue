@@ -4,7 +4,7 @@ export default class Storage {
 
         labelSet = getObjectFromLocalStorage(this.key);
 
-        if(labelSet == null){
+      if (labelSet == null) {
             saveObjectInLocalStorage({
                 [this.key]: labelSet
             });
@@ -14,34 +14,20 @@ export default class Storage {
     }
 
     saveLabels(labels) {
-        saveObjectInLocalStorage({ [this.key]: labels});
+      const kk = this.key;
+      chrome.storage.local.set({kk : labels}, ()=> {
+
+        console.log('Saved  ' + labels);
+      });
     }
 
     labels() {
         return Array.from(getObjectFromLocalStorage(this.key)).sort();
     }
 
-    async getObjectFromLocalStorage(key) {
-      return new Promise((resolve, reject) => {
-        try {
-          chrome.storage.local.get(key, function(value) {
-            resolve(value[key]);
-          });
-        } catch (ex) {
-          reject(ex);
-        }
-      });
-    }
-
-    async saveObjectInLocalStorage(obj) {
-      return new Promise((resolve, reject) => {
-        try {
-          chrome.storage.local.set(obj, function() {
-            resolve();
-          });
-        } catch (ex) {
-          reject(ex);
-        }
+    getObjectFromLocalStorage(key) {
+      chrome.storage.local.get([key], (result) => {
+        console.log('Retrieved name: ' + result);
       });
     }
 }
