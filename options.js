@@ -4,7 +4,8 @@ import Storage from './storage.js';
 // TODO: Align table columns
 // TODO: Add input label validation
 
-const labelsSet = new Set(['good first issue', 'bug']);
+const storage = new Storage();
+const labelsSet = storage.labels() ;// new Set(['good first issue', 'bug']);
 
 function handleRemoveButtonClick(event) {
   const label = event.target.attributes['button-label'].value;

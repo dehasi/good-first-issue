@@ -1,33 +1,32 @@
 export default class Storage {
     constructor(defaultLabels = ['bug', 'good first issue']) {
-        this.key = 'labels';
+      this.key = 'LABELS';
 
-        labelSet = getObjectFromLocalStorage(this.key);
+      labelSet = loadLabels(this.key);
 
       if (labelSet == null) {
-            saveObjectInLocalStorage({
-                [this.key]: labelSet
-            });
-        }
-
-        saveLabels(defaultLabels);
+         saveLabels(defaultLabels);
+      }
     }
 
     saveLabels(labels) {
-      const kk = this.key;
-      chrome.storage.local.set({kk : labels}, ()=> {
-
-        console.log('Saved  ' + labels);
+      const key = this.key;
+      chrome.storage.local.set({key : labels}, () => {
+        console.log('Saved: ' + labels);
       });
     }
 
     labels() {
-        return Array.from(getObjectFromLocalStorage(this.key)).sort();
+        return Array.from(loadLabels()).sort();
     }
 
-    getObjectFromLocalStorage(key) {
+    loadLabels() {
+      const key = this.key;
+      var res = []
       chrome.storage.local.get([key], (result) => {
-        console.log('Retrieved name: ' + result);
+        res = result;
+        console.log('Retrieved: ' + result);
       });
+      return res;
     }
 }

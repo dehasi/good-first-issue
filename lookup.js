@@ -37,13 +37,13 @@ function addLabelCount(label) {
 function getOrDefault(key, defaultValue) {
   result = null;
   chrome.storage.sync.get(key, kv => {
-  console.log('result ' + kv);
+    console.log('result ' + kv);
     if (kv[key]) {
       console.log('result ' + kv[key]);
       result = kv[key];
     } else {
       console.log('no value for key ' + key);
-      chrome.storage.sync.set({ key: defaultValue }, () => {});
+      chrome.storage.sync.set({ key: defaultValue }, () => { });
       result = defaultValue;
     }
   });
@@ -75,24 +75,24 @@ function labelElement(label, count) {
   fontColor = isDarkColor(color) ? "#ffffff" : "#000000";
   url = "/" + user_repo() + "/issues?q=is:issue+is:open+label:" + '%22' + name.replaceAll(' ', '+') + '%22';
   return `<span class="labels lh-default d-block d-md-inline">`
-         + `<a href="${url}" data-name="${name}"data-view-component="true"`
-         + ` style="background: #${color}; color: ${fontColor}; border-color: #${color}" `
-         + ` class="IssueLabel hx_IssueLabel">`
-         + `${name}: ${count}</a></span>`
+    + `<a href="${url}" data-name="${name}"data-view-component="true"`
+    + ` style="background: #${color}; color: ${fontColor}; border-color: #${color}" `
+    + ` class="IssueLabel hx_IssueLabel">`
+    + `${name}: ${count}</a></span>`
 }
 
-async function main () {
-    const src = chrome.runtime.getURL('storage.js');
-    const storage = await import(src);
-
-    labels =  ['good first issue', 'bug']
-    if (issuesTab != null) {
-      for (let label of labels) {
-        addLabelCount(label);
-      }
-    } else {
-      console.log('No Issues tab');
+async function main() {
+  const src = chrome.runtime.getURL('storage.js');
+  const storage = await import(src);
+  console.log(storage);
+  labels = storage.labels(); //['good first issue', 'bug']
+  if (issuesTab != null) {
+    for (let label of labels) {
+      addLabelCount(label);
     }
+  } else {
+    console.log('No Issues tab');
+  }
 }
 
 main();
