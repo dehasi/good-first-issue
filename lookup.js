@@ -83,7 +83,7 @@ function labelElement(label, count) {
 
 async function main() {
   const src = chrome.runtime.getURL('storage.js');
-  const Storage = await import(src);
+  const {default: Storage} = await import(src);
   const storage = new Storage();
   console.log(storage);
   labels = storage.labels(); //['good first issue', 'bug']
