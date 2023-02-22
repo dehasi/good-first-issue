@@ -28,7 +28,7 @@ export default class Storage {
   async loadLabels() {
     const key = this.key;
     return new Promise((resolve) => {
-      chrome.storage.local.get([key], (result) => {
+      chrome.storage.local.get(key, (result) => {
         console.log('Retrieved: ' + result);
         resolve(result);
       });
