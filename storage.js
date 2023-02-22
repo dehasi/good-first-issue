@@ -1,12 +1,6 @@
 export default class Storage {
-  constructor(defaultLabels = ['bug', 'good first issue']) {
+  constructor() {
     this.key = 'LABELS';
-
-    const labelSet = await loadLabels();
-
-    if (labelSet == null) {
-      saveLabels(defaultLabels);
-    }
   }
 
   saveLabels(labels) {
@@ -16,8 +10,16 @@ export default class Storage {
     });
   }
 
-  labels() {
-    return Array.from(loadLabels()).sort();
+  async labels() {
+    const defaultLabels = ['bug', 'good first issue']
+    const labelSet = await this.loadLabels();
+
+    if (labelSet == null) {
+      this.saveLabels(defaultLabels);
+      return defaultLabels;
+    }
+
+    return Array.from(labelSet).sort();
   }
 
   async loadLabels() {
