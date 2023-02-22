@@ -20,6 +20,7 @@ function requestIssues(label) {
 }
 
 function addLabelCount(label) {
+  console.log('add label: ' + label)
   requestIssues(label).then(issues => {
     if (issues.length > 0) {
       labelObject = issues.flatMap(i => i.labels).find(l => l.name === label);
@@ -85,11 +86,13 @@ async function main() {
   const src = chrome.runtime.getURL('storage.js');
   const {default: Storage} = await import(src);
   const storage = new Storage();
-  console.log(storage);
-  labels = storage.labels(); //['good first issue', 'bug']
+
+  labels = await storage.labels();
+  console.log('labels: ' + labels);
+
   if (issuesTab != null) {
-    for (let label of labels) {
-      addLabelCount(label);
+    for(var i = 0; i < labels.length; i = i + 1) {
+      addLabelCount(labels[i]);
     }
   } else {
     console.log('No Issues tab');
